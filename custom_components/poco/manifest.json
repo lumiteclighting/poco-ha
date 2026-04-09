@@ -1,0 +1,11 @@
+{
+  "domain": "poco",
+  "name": "Poco",
+  "version": "0.1.0",
+  "config_flow": true,
+  "documentation": "https://www.lumiteclighting.com",
+  "requirements": [],
+  "dependencies": [],
+  "iot_class": "local_push",
+  "codeowners": []
+}

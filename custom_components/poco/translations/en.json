@@ -1,0 +1,31 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to Poco",
+        "description": "Enter the hostname or IP address of your Poco lighting controller.",
+        "data": {
+          "host": "Host or IP address"
+        },
+        "data_description": {
+          "host": "e.g. poco.local or 192.168.1.100"
+        }
+      },
+      "switches": {
+        "title": "Select switches",
+        "description": "Choose which Poco external switches to expose as lights in Home Assistant.",
+        "data": {
+          "switch_ids": "Switches"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Cannot connect to the Poco device. Check the host and try again.",
+      "no_switches": "No external switches found on this device.",
+      "unknown": "Unexpected error. Check the Home Assistant logs for details."
+    },
+    "abort": {
+      "already_configured": "This Poco device is already configured."
+    }
+  }
+}
