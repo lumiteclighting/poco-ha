@@ -2,7 +2,7 @@
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/integration)
 
-A Home Assistant custom component for the **Poco** lighting controller by Lumitec.
+A Home Assistant custom component for the **Poco** lighting controller by [Lumitec](https://www.lumiteclighting.com/ ).
 
 Exposes each Poco external switch as a `light` entity with full on/off, brightness, and HS colour support. Uses the WebSocket push channel for real-time state updates and falls back to HTTP polling if the WebSocket is unavailable.
 
@@ -31,14 +31,18 @@ Exposes each Poco external switch as a `light` entity with full on/off, brightne
 
 ## Installation
 
-### Via HACS (recommended)
+### Via HACS (recommended for end-users)
+
+Install HACS: 
+https://hacs.xyz/docs/use/download/download/
 
 1. In HACS, go to **Integrations → ⋮ → Custom repositories**.
-2. Add this repository URL with category **Integration**.
+2. Add this repository URL `https://github.com/lumiteclighting/poco-ha.git` with category **Integration**.
 3. Search for **Poco** and click **Download**.
 4. Restart Home Assistant.
 
-### Manual
+
+### Manual Copy Files
 
 1. Copy the `custom_components/poco/` folder from this repository into your HA
    `<config>/custom_components/poco/` directory.
@@ -105,22 +109,41 @@ WebSocket endpoint: `ws://{host}/websocket/ws.cgi`
 
 ## Known limitations
 
-- The Poco firmware field for available actions is named `acts` (array of integers) in the actual firmware but `act` (array of objects) in the v3.3.0 API spec. This component ignores the `acts`/`act` field and relies on the other state fields (`state`, `bright`, `hue`, `sat`).
+
 - Multi-switch commands (e.g. using `ids` instead of `id`) are not yet exposed in the HA UI, but the coordinator's `async_send_action` method supports arbitrary query parameters if you extend the component.
 - HACS auto-update requires the repository to be hosted on GitHub with tagged releases. Tag releases with [semantic versioning](https://semver.org/) (e.g. `v0.1.0`) and create a GitHub Release for each version.
 
----
+## Alternatives
+
+- For an example using only built-in HA components, see: [poc_readme.md](poc_readme.md)
 
 ## Development
 
-```bash
-# Clone the repo alongside your HA config directory
-git clone https://github.com/YOUR_USERNAME/poco-ha.git
+### Git clone and link via remote (for development)
 
-# Symlink the component into HA for live development
-ln -s /path/to/poco-ha/custom_components/poco \
-      /path/to/homeassistant/custom_components/poco
+1. Setup SSH into your homeassistant 
+   - Tip: install `Advanced SSH & Web Terminal` app
+   - Add your SSH key, enable `allow_agent_forwarding`, `allow_remote_port_forwarding`, and `allow_tcp_forwarding`, and enable port 22.
+   - Add entry to your local dev workstations ~/.ssh/config 
 ```
+Host homeassistant
+  HostName homeassistant.local
+  User root
+```
+2. SSH to homeassistant
+  - Tip: Use VScode remote SSH to homeassistant. 
+3. Git clone this repo to /root/poco-ha 
+```sh
+# Clone the repo alongside your HA config directory i.e. /root/poco-ha/ 
+git clone https://github.com/lumiteclighting/poco-ha.git
+```
+4. Symlink files from git repo so HA sees them
+```sh
+# Symlink the component into HA for live development
+ln -s /root/homeassistant/custom_components/poco \
+      /root/poco-ha/custom_components/poco
+```
+4. Restart Home Assistant.
 
 Changes to Python files take effect after restarting HA (or reloading the integration from the UI where supported).
 
